@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resources/music/background.wma</file>
+    </qresource>
+</RCC>
