@@ -29,3 +29,6 @@ FORMS    += mainwindow.ui
 RESOURCES += \
     pic.qrc \
     music.qrc
+
+DISTFILES += \
+    README.md
