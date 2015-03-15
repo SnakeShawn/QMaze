@@ -7,6 +7,11 @@ public:
     int y;
     Position(int a=0, int b=0):x(a),y(b){}
 
+    bool operator == (Position P)
+    {
+        return (x == P.x)&&(y == P.y);
+    }
+
     bool isInRange(int rs, int re, int cs, int ce){
         return x>=rs && x <=re && y>=cs && y<=ce;
     }

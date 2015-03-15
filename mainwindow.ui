@@ -34,11 +34,20 @@
     <property name="title">
      <string>Options</string>
     </property>
+    <addaction name="Music"/>
+    <addaction name="separator"/>
+    <addaction name="nextLevel"/>
+    <addaction name="lastLevel"/>
+    <addaction name="noWall"/>
+    <addaction name="showPath"/>
+    <addaction name="viewOpen"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="Help"/>
+    <addaction name="About"/>
    </widget>
    <addaction name="menuGame"/>
    <addaction name="menuOptions"/>
@@ -57,10 +66,76 @@
    <property name="text">
     <string>New</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
   </action>
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="nextLevel">
+   <property name="text">
+    <string>Next Level</string>
+   </property>
+  </action>
+  <action name="lastLevel">
+   <property name="text">
+    <string>Last Level</string>
+   </property>
+  </action>
+  <action name="noWall">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Ignore Wall</string>
+   </property>
+  </action>
+  <action name="Music">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Music On/Off</string>
+   </property>
+  </action>
+  <action name="Help">
+   <property name="text">
+    <string>Help</string>
+   </property>
+  </action>
+  <action name="About">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="showPath">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Path</string>
+   </property>
+  </action>
+  <action name="viewOpen">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Visible</string>
+   </property>
+  </action>
+  <action name="actionShow_Traps">
+   <property name="text">
+    <string>Show Traps</string>
    </property>
   </action>
  </widget>

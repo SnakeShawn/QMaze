@@ -147,7 +147,7 @@ const Portal& Maze::findPortal(const Maze& m) const
             return portals[i];
 }
 
-Position Maze::randomValidPos(int minCount) const
+Position Maze::randomValidPos(int minCount) const   //Random to obtain a valid location, which is beyond (1,1) to (rows-2,cols-2)
 {
     vector<Position> validPos;
     for(int i=1; i<rows-2; i+=2)
@@ -184,4 +184,49 @@ Position Maze::setStart()
     Position p(1,1);
     at(p).id = START;
     return p;
+}
+
+bool Maze::findPathTo(Position origin, Position dest)
+{
+    for(int i=0; i<rows; i++)
+        for (int j=0; j<cols; j++)
+            if(at(i,j).inPath)
+                at(i,j).inPath = false;
+    if(isNextPosInPath(origin, origin, dest))
+        return true;
+    return false;
+}
+
+bool Maze::isNextPosInPath(Position last, Position curr, Position dest)
+{
+    if(curr == dest)
+    {
+        return true;
+    }
+    if((*this)(curr.x+1, curr.y) != OUT && (*this)(curr.x+1, curr.y) != WALL && !(curr.down(1) == last))
+        if(isNextPosInPath(curr, curr.down(1), dest))
+        {
+            at(curr).inPath = true;
+            return true;
+        }
+    if((*this)(curr.x-1, curr.y) != OUT && (*this)(curr.x-1, curr.y) != WALL && !(curr.up(1) == last))
+        if(isNextPosInPath(curr, curr.up(1), dest))
+        {
+            at(curr).inPath = true;
+            return true;
+        }
+    if((*this)(curr.x, curr.y+1) != OUT && (*this)(curr.x, curr.y+1) != WALL && !(curr.right(1) == last))
+        if(isNextPosInPath(curr, curr.right(1), dest))
+        {
+            at(curr).inPath = true;
+            return true;
+        }
+    if((*this)(curr.x, curr.y-1) != OUT && (*this)(curr.x, curr.y-1) != WALL && !(curr.left(1) == last))
+        if(isNextPosInPath(curr, curr.left(1), dest))
+        {
+            at(curr).inPath = true;
+            return true;
+        }
+
+    return false;
 }

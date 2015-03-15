@@ -26,7 +26,21 @@ public:
     void reinitialize();
 private slots:
     void onMusicFinished();
+
     void on_newGame_triggered();
+
+    void on_nextLevel_triggered();
+
+    void on_lastLevel_triggered();
+
+    void on_Music_changed();
+
+    void on_noWall_changed();
+
+    void on_viewOpen_changed();
+
+    void on_showPath_changed();
+
 private:
     Ui::MainWindow *ui;
     const static int MazePosX = 50;
@@ -41,7 +55,7 @@ private:
     int manCurrX;
     int manCurrY;
     bool showTrap;
-//    bool showPath;
+    bool showPath;
     bool noWall;
     bool viewOpen;
 };

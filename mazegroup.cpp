@@ -42,7 +42,7 @@ void MazeGroup::setLevel_1()
     level_1[0].setEnd();
 }
 
-void MazeGroup::setLevel_2()
+void MazeGroup::setLevel_2()    //(maze,count):(0,4)(1,4)(2,2)
 {
     level_2[0].setPortalTo(level_2[1],3);
     level_2[0].setPortalTo(level_2[2],1);
@@ -52,7 +52,7 @@ void MazeGroup::setLevel_2()
     level_2[2].setEnd();
 }
 
-void MazeGroup::setLevel_3()
+void MazeGroup::setLevel_3()    //(maze,count):(0,4)(1,5)(2,5)(3,2)(4,1)
 {
     level_3[0].setPortalTo(level_3[1],2);
     level_3[0].setPortalTo(level_3[2],2);

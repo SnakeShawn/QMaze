@@ -28,12 +28,13 @@ MainWindow::MainWindow(QWidget *parent) :
     bgPlayer->play();
 
     noWall = false;
-    showTrap = true;
-    viewOpen = true;
+    showTrap = false;
+    showPath = false;
+    viewOpen = false;
     manCurrX = 0;
     manCurrY = 0;
 
-    currMaze = mazeGroup.getStartMaze(3);
+    currMaze = mazeGroup.getStartMaze(1);
 }
 
 MainWindow::~MainWindow()
@@ -89,6 +90,9 @@ void MainWindow::paintEvent(QPaintEvent *)
                     break;
                 }
             }
+            if(showPath)
+                if(currMaze->at(i,j).isPath())
+                    q.drawImage(MazePosX+j*imgWidth,MazePosY+i*imgHeight,pathImg);
 
             if(!viewOpen)
             {
@@ -136,6 +140,22 @@ void MainWindow::keyPressEvent(QKeyEvent *k)
     }
     if(k->key() == Qt::Key_Space)
     {
+        if((*currMaze)(manCurrY,manCurrX) == PORTAL)
+        {
+            Portal ptl = (*currMaze).findPortal(manCurrY,manCurrX);
+            if(currMaze != ptl.dest)
+            {
+                currMaze = ptl.dest;
+                //reset the zombie
+            }
+            else
+            {
+                currMaze = ptl.dest;
+            }
+            manCurrY = ptl.posThere.y;
+            manCurrX = ptl.posThere.x;
+        }
+        showPath = false;
     }
     update();
 }
@@ -148,14 +168,20 @@ void MainWindow::onMove()
     case END:{
         if(currMaze->level == Maze::highestLvl)
         {
+            QMessageBox endMsg;
+            endMsg.setText("Suddenly。。。。");
+            endMsg.exec();
+            on_newGame_triggered();
+            break;
         }
         else
         {
             QMessageBox endMsg;
             endMsg.setText("眼前的甬道通往魔宫更黑暗的深处，吴邪踌躇了一会儿，便走进了黑暗之中。。。。");
             endMsg.exec();
+            on_nextLevel_triggered();
+            break;
         }
-        break;
     }
     default:
         break;
@@ -171,4 +197,75 @@ void MainWindow::onMusicFinished()
 void MainWindow::on_newGame_triggered()
 {
     reinitialize();
+}
+
+void MainWindow::on_nextLevel_triggered()
+{
+    if(currMaze->level < Maze::highestLvl)
+    {
+        currMaze = mazeGroup.getStartMaze(currMaze->level + 1);
+        manCurrX = 0;
+        manCurrY = 0;
+        update();
+    }
+}
+
+void MainWindow::on_lastLevel_triggered()
+{
+    if(currMaze->level > 1)
+    {
+        currMaze = mazeGroup.getStartMaze(currMaze->level - 1);
+        manCurrX = 0;
+        manCurrY = 0;
+        update();
+    }
+}
+
+void MainWindow::on_Music_changed()
+{
+    if(ui->Music->isChecked())
+    {
+        bgPlayer->play();
+    }
+    else
+    {
+        bgPlayer->pause();
+    }
+}
+
+void MainWindow::on_noWall_changed()
+{
+    if(ui->noWall->isChecked())
+        noWall = true;
+    else
+        noWall = false;
+}
+
+void MainWindow::on_viewOpen_changed()
+{
+    if(ui->viewOpen->isChecked())
+    {
+        viewOpen = true;
+    }
+    else
+    {
+        viewOpen = false;
+    }
+    update();
+}
+
+void MainWindow::on_showPath_changed()
+{
+    if(ui->showPath->isChecked())
+    {
+        Position endPos = currMaze->getEnd();
+        if(endPos == Position(-1, -1))
+            return ;
+        showPath = true;
+    }
+    else
+    {
+        showPath = false;
+    }
+    update();
 }

@@ -10,7 +10,7 @@ enum role{OUT,WALL,ROAD,PORTAL,TRAP,START,END};
 ////////the Node of the Maze
 class Node{
 public:
-    int id;     //type of the node
+    int id;     //type of the node, i.e. role{}
     int index;
     int root;
     int count;
@@ -57,6 +57,7 @@ public:
     void setPortalTo(Maze& m, int count);
     const Portal& findPortal(int x, int y)const;
     const Portal& findPortal(const Maze&)const;
+    bool findPathTo(Position origin, Position dest);
     Position randomValidPos(int minCount)const;
     Position randomNextPos(Position next,Position curr)const;
     Position setEnd();
