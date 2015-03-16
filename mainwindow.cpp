@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     pathImg(":/pic/resources/pic/path.jpg"),
     trapImg(":/pic/resources/pic/trap.jpg"),
     endImg(":/pic/resources/pic/end.jpg"),
+    preciousImg(":/pic/resources/pic/precious.jpg"),
     portalImg(":/pic/resources/pic/portal.jpg"),
     manImg(":/pic/resources/pic/man.jpg"),
     zombieImg(":/pic/resources/pic/zombie.jpg"),
@@ -22,7 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setWindowTitle("Tomb Adventure");
+//    setWindowTitle("Tomb Adventure");
+    setWindowTitle("盗墓笔记之七星鲁王宫");
     setFixedSize(1000,620);
 
     bgPlayer = createPlayer(MusicCategory,currMusic);
@@ -33,13 +35,13 @@ MainWindow::MainWindow(QWidget *parent) :
     timer->start(1000); // 1 second
 
     bgPlayer->play();
-    currMaze = mazeGroup.getStartMaze(4);
+    currMaze = mazeGroup.getStartMaze(1);
     resetZombie();
 
     noWall = false;
-    showTrap = true;
+    showTrap = false;
     showPath = false;
-    viewOpen = true;
+    viewOpen = false;
     manCurrX = 0;
     manCurrY = 0;
 
@@ -95,7 +97,14 @@ void MainWindow::paintEvent(QPaintEvent *)
                     break;
                 }
                 case END:{
-                    q.drawImage(MazePosX+j*imgWidth,MazePosY+i*imgHeight,endImg);
+                    if(currMaze->level == Maze::highestLvl)
+                    {
+                        q.drawImage(MazePosX+j*imgWidth,MazePosY+i*imgHeight,preciousImg);
+                    }
+                    else
+                    {
+                        q.drawImage(MazePosX+j*imgWidth,MazePosY+i*imgHeight,endImg);
+                    }
                     break;
                 }
             }
@@ -166,6 +175,7 @@ void MainWindow::keyPressEvent(QKeyEvent *k)
             }
             manCurrY = ptl.posThere.x;
             manCurrX = ptl.posThere.y;
+            resetOptions();
         }
         if(meetZombie(Position(manCurrY, manCurrX)))
             gameOver();
@@ -185,7 +195,7 @@ void MainWindow::onMove()
         Portal trap = currMaze->findPortal(manCurrY, manCurrX);
         currMaze->deleteTrap(manCurrY, manCurrX);
         QMessageBox trapMsg;
-        trapMsg.setText("Trap!");
+        trapMsg.setText("你脚下一滑掉入了一口棺材，然后。。。");
         trapMsg.exec();
         if (currMaze != trap.dest)
         {
@@ -208,7 +218,7 @@ void MainWindow::onMove()
         if(currMaze->level == Maze::highestLvl)
         {
             QMessageBox endMsg;
-            endMsg.setText("Suddenly。。。。");
+            endMsg.setText("啊，宝藏就在眼前了，这时候突然。。。。");
             endMsg.exec();
             on_newGame_triggered();
             break;
@@ -216,7 +226,7 @@ void MainWindow::onMove()
         else
         {
             QMessageBox endMsg;
-            endMsg.setText("Next Level。。。。");
+            endMsg.setText("眼前的甬道通往魔宫的更深处，吴邪踌躇了一会儿，便走进了黑暗之中。。。。");
             endMsg.exec();
             on_nextLevel_triggered();
             showPath = false;
@@ -266,6 +276,7 @@ void MainWindow::on_nextLevel_triggered()
         currMaze = mazeGroup.getStartMaze(currMaze->level + 1);
         manCurrX = 0;
         manCurrY = 0;
+        resetOptions();
         update();
     }
 }
@@ -277,6 +288,7 @@ void MainWindow::on_lastLevel_triggered()
         currMaze = mazeGroup.getStartMaze(currMaze->level - 1);
         manCurrX = 0;
         manCurrY = 0;
+        resetOptions();
         update();
     }
 }
@@ -360,7 +372,7 @@ void MainWindow::on_Help_triggered()
 void MainWindow::gameOver()
 {
     QMessageBox msg;
-    msg.setText("It is a pity!");
+    msg.setText("看来是遇到了千年血粽子，只好退出墓穴重整旗鼓了");
     msg.exec();
     on_newGame_triggered();
 }
@@ -369,4 +381,10 @@ void MainWindow::resetOptions()
 {
     showPath = false;
     ui->showPath->setChecked(false);
+    noWall = false;
+    ui->noWall->setChecked(false);
+    showTrap = false;
+    ui->showTrap->setChecked(false);
+    viewOpen = false;
+    ui->viewOpen->setChecked(false);
 }

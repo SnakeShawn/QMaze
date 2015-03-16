@@ -8,5 +8,6 @@
         <file>resources/pic/trap.jpg</file>
         <file>resources/pic/zombie.jpg</file>
         <file>resources/pic/road.jpg</file>
+        <file>resources/pic/precious.jpg</file>
     </qresource>
 </RCC>

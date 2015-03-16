@@ -64,7 +64,7 @@ private:
     ZombieThread* zombie;
     Phonon::MediaObject* bgPlayer;
     Phonon::MediaSource currMusic;
-    QImage wallImg, roadImg, pathImg, endImg, portalImg, trapImg, manImg, zombieImg;
+    QImage wallImg, roadImg, pathImg, endImg, portalImg, trapImg, manImg, zombieImg, preciousImg;
     int manCurrX;
     int manCurrY;
     bool showTrap;

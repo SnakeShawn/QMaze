@@ -35,4 +35,5 @@ RESOURCES += \
 
 DISTFILES += \
     README.md \
-    rule
+    rule \
+    TEXT

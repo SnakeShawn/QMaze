@@ -86,7 +86,7 @@
   </action>
   <action name="lastLevel">
    <property name="text">
-    <string>Last Level</string>
+    <string>Previous Level</string>
    </property>
   </action>
   <action name="noWall">
