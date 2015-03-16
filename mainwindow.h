@@ -12,6 +12,8 @@ namespace Ui {
 class MainWindow;
 }
 
+class ZombieThread;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -25,7 +27,9 @@ public:
     void onMove();
     void resetOptions();
     void reinitialize();
+
 private slots:
+    void moveZombie();
     void onMusicFinished();
 
     void on_newGame_triggered();
@@ -54,8 +58,10 @@ private:
     const static int MazePosY = 50;
     const static int imgWidth = 20;
     const static int imgHeight= 20;
+    const static int zombieCount = 4;
     MazeGroup mazeGroup;
     Maze* currMaze;
+    ZombieThread* zombie;
     Phonon::MediaObject* bgPlayer;
     Phonon::MediaSource currMusic;
     QImage wallImg, roadImg, pathImg, endImg, portalImg, trapImg, manImg, zombieImg;
@@ -65,6 +71,21 @@ private:
     bool showPath;
     bool noWall;
     bool viewOpen;
+
+    Position zombies[zombieCount];
+    Position zombiesJustNow[zombieCount];
+    bool meetZombie(Position p)
+    {
+        if(currMaze->level < 4)
+            return false;
+        for(int i=0; i<zombieCount; i++)
+            if(p == zombies[i])
+                return true;
+        return false;
+    }
+    void resetZombie();
+    void gameOver();
 };
+
 
 #endif // MAINWINDOW_H

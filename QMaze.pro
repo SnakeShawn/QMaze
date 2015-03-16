@@ -34,4 +34,5 @@ RESOURCES += \
     music.qrc
 
 DISTFILES += \
-    README.md
+    README.md \
+    rule

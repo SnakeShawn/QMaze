@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     endImg(":/pic/resources/pic/end.jpg"),
     portalImg(":/pic/resources/pic/portal.jpg"),
     manImg(":/pic/resources/pic/man.jpg"),
+    zombieImg(":/pic/resources/pic/zombie.jpg"),
     currMusic(":/resources/music/background.wma")
 {
     ui->setupUi(this);
@@ -26,7 +27,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     bgPlayer = createPlayer(MusicCategory,currMusic);
     connect(bgPlayer,SIGNAL(finished()),SLOT(onMusicFinished()));
+
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(moveZombie()));
+    timer->start(1000); // 1 second
+
     bgPlayer->play();
+    currMaze = mazeGroup.getStartMaze(4);
+    resetZombie();
 
     noWall = false;
     showTrap = true;
@@ -35,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
     manCurrX = 0;
     manCurrY = 0;
 
-    currMaze = mazeGroup.getStartMaze(4);
+
 }
 
 MainWindow::~MainWindow()
@@ -96,6 +104,8 @@ void MainWindow::paintEvent(QPaintEvent *)
                 if(currMaze->at(i,j).isPath())
                     q.drawImage(MazePosX+j*imgWidth,MazePosY+i*imgHeight,pathImg);
 
+            if(meetZombie(Position(i,j)))
+                q.drawImage(MazePosX+j*imgWidth,MazePosY+i*imgHeight,zombieImg);
             if(!viewOpen)
             {
             for(int y =MazePosY+i*imgHeight;y<MazePosX+(i+1)*imgHeight;y++)
@@ -148,7 +158,7 @@ void MainWindow::keyPressEvent(QKeyEvent *k)
             if(currMaze != ptl.dest)
             {
                 currMaze = ptl.dest;
-                //reset the zombie
+                resetZombie();
             }
             else
             {
@@ -157,6 +167,8 @@ void MainWindow::keyPressEvent(QKeyEvent *k)
             manCurrY = ptl.posThere.x;
             manCurrX = ptl.posThere.y;
         }
+        if(meetZombie(Position(manCurrY, manCurrX)))
+            gameOver();
         showPath = false;
         ui->showPath->setChecked(false);
     }
@@ -165,8 +177,8 @@ void MainWindow::keyPressEvent(QKeyEvent *k)
 
 void MainWindow::onMove()
 {
-//    if(meetZombie(Position(manCurrY, manCurrX)))
-//        gameOver();
+    if(meetZombie(Position(manCurrY, manCurrX)))
+        gameOver();
     switch ((*currMaze)(manCurrY, manCurrX)) {
     case TRAP:
     {
@@ -178,7 +190,7 @@ void MainWindow::onMove()
         if (currMaze != trap.dest)
         {
             currMaze = trap.dest;
-//            resetZombie();
+            resetZombie();
         }
         else
         {
@@ -186,10 +198,9 @@ void MainWindow::onMove()
         }
         manCurrX = trap.posThere.y;
         manCurrY = trap.posThere.x;
-//    if(meetZombie(Position(manCurrY, manCurrX)))
-//        gameOver();
-        showPath = false;
-        ui->showPath->setChecked(false);
+        if(meetZombie(Position(manCurrY, manCurrX)))
+            gameOver();
+        resetOptions();
         update();
         break;
     }
@@ -216,6 +227,25 @@ void MainWindow::onMove()
     default:
         break;
     }
+}
+
+void MainWindow::moveZombie()
+{
+    for(int i=0; i<zombieCount; i++)
+    {
+        Position p = currMaze->randomNextPos(zombiesJustNow[i],zombies[i]);
+        zombiesJustNow[i] = zombies[i];
+        zombies[i] = p;
+    }
+    update();
+    if(meetZombie(Position(manCurrY,manCurrX)))
+        gameOver();
+}
+
+void MainWindow::resetZombie()
+{
+    for (int i=0; i<zombieCount; i++)
+        zombies[i] = currMaze->randomValidPos(1);
 }
 
 void MainWindow::onMusicFinished()
@@ -327,5 +357,16 @@ void MainWindow::on_Help_triggered()
     info.exec();
 }
 
+void MainWindow::gameOver()
+{
+    QMessageBox msg;
+    msg.setText("It is a pity!");
+    msg.exec();
+    on_newGame_triggered();
+}
+
 void MainWindow::resetOptions()
-{}
+{
+    showPath = false;
+    ui->showPath->setChecked(false);
+}

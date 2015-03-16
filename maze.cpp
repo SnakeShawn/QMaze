@@ -256,3 +256,46 @@ bool Maze::isNextPosInPath(Position last, Position curr, Position dest)
 
     return false;
 }
+
+Position Maze::randomNextPos(Position last, Position curr) const
+{
+    vector<Position> validPos;
+    if((*this)(curr.x+1, curr.y) != OUT && (*this)(curr.x+1, curr.y) != WALL)
+    {
+        validPos.push_back(curr.down(1));
+        if(!(curr.down(1) == last))
+        {
+            validPos.push_back(curr.down(1));
+            validPos.push_back(curr.down(1));
+        }
+    }
+    if((*this)(curr.x-1, curr.y) != OUT && (*this)(curr.x-1, curr.y) != WALL)
+    {
+        validPos.push_back(curr.up(1));
+        if(!(curr.up(1) == last))
+        {
+            validPos.push_back(curr.up(1));
+            validPos.push_back(curr.up(1));
+        }
+    }
+    if((*this)(curr.x, curr.y+1) != OUT && (*this)(curr.x, curr.y+1) != WALL)
+    {
+        validPos.push_back(curr.right(1));
+        if(!(curr.right(1) == last))
+        {
+            validPos.push_back(curr.right(1));
+            validPos.push_back(curr.right(1));
+        }
+    }
+    if((*this)(curr.x, curr.y-1) != OUT && (*this)(curr.x, curr.y-1) != WALL)
+    {
+        validPos.push_back(curr.left(1));
+        if(!(curr.left(1) == last))
+        {
+            validPos.push_back(curr.left(1));
+            validPos.push_back(curr.left(1));
+        }
+    }
+
+    return validPos[rand()%validPos.size()];
+}
