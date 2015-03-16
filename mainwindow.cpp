@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     wallImg(":/pic/resources/pic/wall.jpg"),
     roadImg(":/pic/resources/pic/road.jpg"),
     pathImg(":/pic/resources/pic/path.jpg"),
+    trapImg(":/pic/resources/pic/trap.jpg"),
     endImg(":/pic/resources/pic/end.jpg"),
     portalImg(":/pic/resources/pic/portal.jpg"),
     manImg(":/pic/resources/pic/man.jpg"),
@@ -34,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
     manCurrX = 0;
     manCurrY = 0;
 
-    currMaze = mazeGroup.getStartMaze(1);
+    currMaze = mazeGroup.getStartMaze(4);
 }
 
 MainWindow::~MainWindow()
@@ -164,9 +165,33 @@ void MainWindow::keyPressEvent(QKeyEvent *k)
 
 void MainWindow::onMove()
 {
+//    if(meetZombie(Position(manCurrY, manCurrX)))
+//        gameOver();
     switch ((*currMaze)(manCurrY, manCurrX)) {
     case TRAP:
+    {
+        Portal trap = currMaze->findPortal(manCurrY, manCurrX);
+        currMaze->deleteTrap(manCurrY, manCurrX);
+        QMessageBox trapMsg;
+        trapMsg.setText("Trap!");
+        trapMsg.exec();
+        if (currMaze != trap.dest)
+        {
+            currMaze = trap.dest;
+//            resetZombie();
+        }
+        else
+        {
+            currMaze = trap.dest;
+        }
+        manCurrX = trap.posThere.y;
+        manCurrY = trap.posThere.x;
+//    if(meetZombie(Position(manCurrY, manCurrX)))
+//        gameOver();
+        showPath = false;
+        update();
         break;
+    }
     case END:{
         if(currMaze->level == Maze::highestLvl)
         {
@@ -271,4 +296,24 @@ void MainWindow::on_showPath_changed()
         showPath = false;
     }
     update();
+}
+
+void MainWindow::on_showTrap_changed()
+{
+    if(ui->showTrap->isChecked())
+    {
+        showTrap = true;
+    }
+    else
+    {
+        showTrap = false;
+    }
+    update();
+}
+
+void MainWindow::on_About_triggered()
+{
+    QMessageBox about;
+    about.setText("Maze v.1.1");
+    about.exec();
 }

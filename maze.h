@@ -34,6 +34,7 @@ private:
     Position endPos;
 
     std::vector<Portal> portals;
+    std::vector<Portal> traps;
 
     class Edge{
         friend class Maze;
@@ -55,6 +56,8 @@ public:
     }
     Node& at(int x, int y)const{return map[x*cols+y];}
     void setPortalTo(Maze& m, int count);
+    void setTrapTo(Maze& m, int count);
+    void deleteTrap(int x, int y);
     const Portal& findPortal(int x, int y)const;
     const Portal& findPortal(const Maze&)const;
     bool findPathTo(Position origin, Position dest);

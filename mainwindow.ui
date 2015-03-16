@@ -41,6 +41,7 @@
     <addaction name="noWall"/>
     <addaction name="showPath"/>
     <addaction name="viewOpen"/>
+    <addaction name="showTrap"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -133,7 +134,10 @@
     <string>Visible</string>
    </property>
   </action>
-  <action name="actionShow_Traps">
+  <action name="showTrap">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Show Traps</string>
    </property>

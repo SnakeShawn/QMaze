@@ -133,11 +133,37 @@ void Maze::setPortalTo(Maze &mt, int count)
     }
 }
 
+void Maze::setTrapTo(Maze &mt, int count)
+{
+    for(int i=0; i<count; i++)
+    {
+        Position here = randomValidPos(3);
+        while(at(here).id != ROAD)
+            here = randomValidPos(3);
+        at(here).id = TRAP;
+        Position there = randomValidPos(1);
+        while(mt.at(there).id != ROAD)
+            there = mt.randomValidPos(1);
+        Portal portal_here(here, &mt, there);
+        traps.push_back(portal_here);
+    }
+}
+
+void Maze::deleteTrap(int x, int y)
+{
+    for (int i=0; i<traps.size(); i++)
+        if(traps[i].posHere.x == x && traps[i].posHere.y == y)
+            at(x,y).id = ROAD;
+}
+
 const Portal& Maze::findPortal(int x, int y) const
 {
     for(int i=0; i<portals.size(); i++)
         if(portals[i].posHere.x == x && portals[i].posHere.y == y)
             return portals[i];
+    for (int i=0; i<traps.size(); i++)
+        if(traps[i].posHere.x == x && traps[i].posHere.y == y)
+            return traps[i];
 }
 
 const Portal& Maze::findPortal(const Maze& m) const

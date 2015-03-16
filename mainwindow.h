@@ -41,6 +41,10 @@ private slots:
 
     void on_showPath_changed();
 
+    void on_showTrap_changed();
+
+    void on_About_triggered();
+
 private:
     Ui::MainWindow *ui;
     const static int MazePosX = 50;

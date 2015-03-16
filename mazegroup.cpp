@@ -59,10 +59,10 @@ void MazeGroup::setLevel_3()    //(maze,count):(0,4)(1,5)(2,5)(3,2)(4,1)
     level_3[1].setPortalTo(level_3[2],1);
     level_3[1].setPortalTo(level_3[3],2);
     level_3[2].setPortalTo(level_3[4],1);
-//    for(int i = 0;i<5;i++)
-//    {
-//        level_3[i].setTrapTo(level_2[rand()%3],3);
-//    }
+    for(int i = 0;i<5;i++)
+    {
+        level_3[i].setTrapTo(level_2[rand()%3],3);
+    }
     level_3[0].setEnd(level_3[2]);
     level_3[1].setEnd(level_3[2]);
     level_3[2].setEnd(level_3[4]);
@@ -79,11 +79,11 @@ void MazeGroup::setLevel_4()
     level_4[2].setPortalTo(level_4[5],3);
     level_4[2].setPortalTo(level_4[6],1);
     level_4[5].setPortalTo(level_4[6],1);
-//    for(int i = 0;i<5;i++)
-//    {
-//        level_4[i].setTrapTo(level_3[rand()%5],3);
-//    }
-//    level_4[6].setTrapTo(level_3[rand()%5],3);
+    for(int i = 0;i<5;i++)
+    {
+        level_4[i].setTrapTo(level_3[rand()%5],3);
+    }
+    level_4[6].setTrapTo(level_3[rand()%5],3);
     level_4[0].setEnd(level_4[2]);
     level_4[1].setEnd(level_4[0]);
     level_4[2].setEnd(level_4[6]);
