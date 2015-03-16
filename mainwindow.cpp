@@ -19,8 +19,8 @@ MainWindow::MainWindow(QWidget *parent) :
     currMusic(":/resources/music/background.wma")
 {
     ui->setupUi(this);
-    setWindowTitle("Tomb Adventure盗墓笔记");
-//    setWindowTitle("Tomb Adventure");
+
+    setWindowTitle("Tomb Adventure");
     setFixedSize(1000,620);
 
     bgPlayer = createPlayer(MusicCategory,currMusic);
@@ -90,6 +90,7 @@ void MainWindow::paintEvent(QPaintEvent *)
                     break;
                 }
             }
+
             if(showPath)
                 if(currMaze->at(i,j).isPath())
                     q.drawImage(MazePosX+j*imgWidth,MazePosY+i*imgHeight,pathImg);
@@ -152,10 +153,11 @@ void MainWindow::keyPressEvent(QKeyEvent *k)
             {
                 currMaze = ptl.dest;
             }
-            manCurrY = ptl.posThere.y;
-            manCurrX = ptl.posThere.x;
+            manCurrY = ptl.posThere.x;
+            manCurrX = ptl.posThere.y;
         }
         showPath = false;
+//        ui->showPath->setChecked(false);
     }
     update();
 }
@@ -261,6 +263,7 @@ void MainWindow::on_showPath_changed()
         Position endPos = currMaze->getEnd();
         if(endPos == Position(-1, -1))
             return ;
+        currMaze->findPathTo(Position(manCurrY, manCurrX), endPos);
         showPath = true;
     }
     else
