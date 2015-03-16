@@ -23,6 +23,7 @@ public:
     void paintEvent(QPaintEvent *);
     void keyPressEvent(QKeyEvent *);
     void onMove();
+    void resetOptions();
     void reinitialize();
 private slots:
     void onMusicFinished();
@@ -44,6 +45,8 @@ private slots:
     void on_showTrap_changed();
 
     void on_About_triggered();
+
+    void on_Help_triggered();
 
 private:
     Ui::MainWindow *ui;

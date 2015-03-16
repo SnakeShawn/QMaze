@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+#include "gameinfo.h"
 #include <iostream>
 #include <phonon/MediaObject>
 #include <phonon/MediaSource>
@@ -29,9 +29,9 @@ MainWindow::MainWindow(QWidget *parent) :
     bgPlayer->play();
 
     noWall = false;
-    showTrap = false;
+    showTrap = true;
     showPath = false;
-    viewOpen = false;
+    viewOpen = true;
     manCurrX = 0;
     manCurrY = 0;
 
@@ -158,7 +158,7 @@ void MainWindow::keyPressEvent(QKeyEvent *k)
             manCurrX = ptl.posThere.y;
         }
         showPath = false;
-//        ui->showPath->setChecked(false);
+        ui->showPath->setChecked(false);
     }
     update();
 }
@@ -189,6 +189,7 @@ void MainWindow::onMove()
 //    if(meetZombie(Position(manCurrY, manCurrX)))
 //        gameOver();
         showPath = false;
+        ui->showPath->setChecked(false);
         update();
         break;
     }
@@ -204,9 +205,11 @@ void MainWindow::onMove()
         else
         {
             QMessageBox endMsg;
-            endMsg.setText("眼前的甬道通往魔宫更黑暗的深处，吴邪踌躇了一会儿，便走进了黑暗之中。。。。");
+            endMsg.setText("Next Level。。。。");
             endMsg.exec();
             on_nextLevel_triggered();
+            showPath = false;
+            ui->showPath->setChecked(false);
             break;
         }
     }
@@ -317,3 +320,12 @@ void MainWindow::on_About_triggered()
     about.setText("Maze v.1.1");
     about.exec();
 }
+
+void MainWindow::on_Help_triggered()
+{
+    GameInfo info;
+    info.exec();
+}
+
+void MainWindow::resetOptions()
+{}

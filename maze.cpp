@@ -137,7 +137,7 @@ void Maze::setTrapTo(Maze &mt, int count)
 {
     for(int i=0; i<count; i++)
     {
-        Position here = randomValidPos(3);
+        Position here = randomValidPos(3);      // the '3' indicate that the traps must at the forks of the road, i.e. which edge that were visited more than 3 times
         while(at(here).id != ROAD)
             here = randomValidPos(3);
         at(here).id = TRAP;

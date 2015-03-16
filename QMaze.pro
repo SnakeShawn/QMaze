@@ -16,15 +16,18 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     maze.cpp \
-    mazegroup.cpp
+    mazegroup.cpp \
+    gameinfo.cpp
 
 HEADERS  += mainwindow.h \
     maze.h \
     position.h \
     mazegroup.h \
-    portal.h
+    portal.h \
+    gameinfo.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    gameinfo.ui
 
 RESOURCES += \
     pic.qrc \
