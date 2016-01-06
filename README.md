@@ -3,7 +3,9 @@
 - Tool:Qt creater
 - Language:C++ 
 - Welcome to watch it!
+
 -----
+
 ## The introduction and operational approach are described in the rule.
 
 > ####题目：《盗墓笔记之七星鲁王宫》探险游戏
