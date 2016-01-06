@@ -1,8 +1,8 @@
 # QMaze
-<li>It is a maze game. <br/>
-<li>Tool:Qt creater <br/>
-<li>Language:C++ <br/>
-<li>Welcome to watch it!
+- It is a maze game. 
+- Tool:Qt creater
+- Language:C++ 
+- Welcome to watch it!
 ## The introduction and operational approach are described in the rule.
 >####题目：《盗墓笔记之七星鲁王宫》探险游戏
 
